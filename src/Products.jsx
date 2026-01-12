@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function Products() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -24,26 +26,22 @@ function Products() {
         const fetchProducts = async () => {
             const token = localStorage.getItem("token");
 
-            if (!token || token.trim() === "") {
-                localStorage.removeItem("token");
+            if (!token) {
                 navigate("/login");
                 return;
             }
 
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/product`, {
+                const res = await axios.get(`${BASE_URL}/products`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-
                 setProducts(res.data);
             } catch (error) {
                 if (error.response?.status === 401 || error.response?.status === 403) {
                     localStorage.removeItem("token");
                     navigate("/login");
-                } else {
-                    console.error("Error fetching products:", error);
                 }
             } finally {
                 setLoading(false);
@@ -64,13 +62,16 @@ function Products() {
                 <button className="logout-btn" onClick={handleLogout}>
                     Logout
                 </button>
+                <button className="product-btn" onClick={() => navigate("/products/new")}>
+                    Create Product
+                </button>
             </div>
 
             <Grid container spacing={2}>
                 {products.map((product) => (
                     <Grid item xs={12} sm={6} md={4} key={product._id}>
-                        <Card sx={{ maxWidth: 345 }}>
-                            {product.imageUrl && <CardMedia component="img" height="160" image={product.imageUrl} alt={product.name} />}
+                        <Card sx={{ width: 345 }}>
+                            {product.imageUrl && <CardMedia component="img" height="260" image={product.imageUrl} alt={product.name} />}
 
                             <CardContent>
                                 <Typography gutterBottom variant="h6">
@@ -93,6 +94,9 @@ function Products() {
                             <CardActions>
                                 <Button size="small">Details</Button>
                                 <Button size="small">Buy</Button>
+                                <Button size="small" onClick={() => navigate(`/products/edit/${product._id}`)}>
+                                    Edit
+                                </Button>
                             </CardActions>
                         </Card>
                     </Grid>
