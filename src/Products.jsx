@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function Products() {
     const [products, setProducts] = useState([]);

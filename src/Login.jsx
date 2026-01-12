@@ -14,7 +14,7 @@ function App() {
         setError("");
 
         axios
-            .post(`${import.meta.env.VITE_API_URL}/user/login`, {
+            .post(`${import.meta.env.VITE_API_BASE_URL}/user/login`, {
                 email: email,
                 password: password,
             })

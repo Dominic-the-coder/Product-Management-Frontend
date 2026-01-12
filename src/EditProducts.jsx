@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Box, TextField, Checkbox, FormControlLabel, Button, Select, MenuItem, FormControl, InputLabel, CircularProgress, Typography } from "@mui/material";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function EditProduct() {
     const { id } = useParams();
